@@ -1,4 +1,3 @@
-# gen_latents_images.py
 import torch
 import dnnlib
 import legacy
