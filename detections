@@ -1,0 +1,31 @@
+
+from deepface import DeepFace
+import os
+import json
+from tqdm import tqdm
+
+IMG_DIR = 'latent_dataset/images'
+OUTPUT_JSON = 'latent_dataset/attributes.json'
+
+attributes = {}
+
+for fname in tqdm(sorted(os.listdir(IMG_DIR))):
+    try:
+        result = DeepFace.analyze(
+            img_path=os.path.join(IMG_DIR, fname),
+            actions=['age', 'gender', 'emotion'],
+            detector_backend='retinaface',
+            silent=True
+        )
+
+        attributes[fname] = {
+            'gender': str(result[0]['gender']),
+            'age': float(result[0]['age']),
+            'emotion': str(result[0]['dominant_emotion'])
+        }
+
+    except Exception as e:
+        print(f"Ошибка с {fname}: {str(e)}")
+
+with open(OUTPUT_JSON, 'w') as f:
+    json.dump(attributes, f, indent=4)
