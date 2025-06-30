@@ -220,13 +220,11 @@ class FaceGeneratorApp:
             ))
     
     def show_image(self, img):
-        """Отображает изображение в UI"""
         self.current_photo = ImageTk.PhotoImage(img)
         self.image_label.config(image=self.current_photo)
         self.save_btn.config(state=tk.NORMAL)  
     
     def save_image(self):
-        """Сохраняет текущее изображение в файл"""
         if self.current_image is None:
             messagebox.showwarning("Предупреждение", "Нет изображения для сохранения")
             return
